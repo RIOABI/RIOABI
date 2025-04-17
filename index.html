@@ -1,1 +1,190 @@
-x
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home</title>
+  <style>
+    :root {
+      --gold: #ffc915;
+      --black: #0d0d0d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+      color: var(--gold);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 1rem;
+      overflow: hidden;
+      background-size: 200% 200%;
+      animation: backgroundShift 10s ease infinite;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 1rem 0.5rem;
+      padding: 1rem 2.5rem;
+      background-color: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      animation: slideIn 1s ease forwards;
+      opacity: 0;
+    }
+
+    .btn:nth-child(2) { animation-delay: 0.5s; }
+    .btn:nth-child(3) { animation-delay: 1s; }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--gold);
+      transition: left 0.4s ease;
+      z-index: 0;
+    }
+
+    .btn:hover::before { left: 0; }
+
+    .btn span {
+      position: relative;
+      z-index: 1;
+      color: var(--gold);
+      transition: color 0.4s ease, transform 0.3s ease;
+    }
+
+    .btn:hover span {
+      color: var(--black);
+      transform: scale(1.1);
+    }
+
+    @keyframes slideIn {
+      to { opacity: 1; transform: translateY(0); }
+      from { transform: translateY(40px); opacity: 0; }
+    }
+
+    @keyframes backgroundShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Loading screen */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: transform 1s ease, opacity 0.5s ease;
+      transform: translateY(0);
+    }
+
+    #loading-screen.launch-out {
+      transform: translateY(-120%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #loading-screen h1 {
+      font-size: 4rem;
+      color: var(--gold);
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .bouncing-loader {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .bouncing-loader > div {
+      width: 16px;
+      height: 16px;
+      margin: 0 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: bounce 0.6s infinite alternate;
+    }
+
+    .bouncing-loader > div:nth-child(2) { animation-delay: 0.2s; }
+    .bouncing-loader > div:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      to {
+        opacity: 0.3;
+        transform: translateY(-1rem);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    @media (max-width: 600px) {
+      .btn {
+        padding: 0.8rem 1.8rem;
+        font-size: 1rem;
+        margin: 0.7rem 0.3rem;
+      }
+
+      #loading-screen h1 { font-size: 2.5rem; }
+      .bouncing-loader > div {
+        width: 12px;
+        height: 12px;
+        margin: 0 3px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-screen">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <div class="bouncing-loader">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <h1>UDM</h1>
+    </div>
+  </div>
+
+  <a href="data.html" class="btn"><span>Data</span></a>
+  <a href="admin.html" class="btn"><span>Admins</span></a>
+
+  <script>
+    window.addEventListener("load", () => {
+      const loader = document.getElementById("loading-screen");
+      setTimeout(() => {
+        loader.classList.add("launch-out");
+      }, 2000); // Adjust this duration if you want it to stay longer or shorter
+    });
+  </script>
+</body>
+</html>
